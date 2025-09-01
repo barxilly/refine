@@ -21,6 +21,10 @@ function App() {
             />
           </div>
         </Flex>
+        <div style={{ position: "relative" }}>
+          <div className="line" style={{ position: "absolute", top: "-1em" }} />
+          <div className="line" style={{ position: "absolute", top: "-0.4em" }} />
+        </div>
       </Stack>
     </MantineProvider>
   );

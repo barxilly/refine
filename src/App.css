@@ -9,7 +9,6 @@ body {
   animation-direction: alternate;
 }
 
-
 @keyframes textflicker {
   from {
     text-shadow: 1px 0 0 #ea36af, -2px 0 0 #75fa69;
@@ -28,11 +27,10 @@ body {
   }
 }
 
-
 .topbar {
   border: rgb(151, 231, 255) 2px solid;
   border-right: none;
-   animation-duration: 0.01s;
+  animation-duration: 0.01s;
   animation-name: boxflicker;
   animation-iteration-count: infinite;
   animation-direction: alternate;
@@ -43,10 +41,19 @@ body {
   font-size: 1.6em;
 }
 
+.line {
+  width: 100vw !important;
+  color: rgb(151, 231, 255) !important;
+  border-top: rgb(151, 231, 255) 0.3em solid !important;
+    animation-duration: 0.01s;
+  animation-name: boxflicker;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
 .lulog {
   filter: invert(1) sepia(1) saturate(10000%) hue-rotate(160deg) brightness(1)
-    drop-shadow(1px 0 0 #ea36af)
-    drop-shadow(-2px 0 0 #75fa69) !important;
+    drop-shadow(1px 0 0 #ea36af) drop-shadow(-2px 0 0 #75fa69) !important;
   animation-duration: 0.01s;
   animation-name: lulogflicker;
   animation-iteration-count: infinite;
@@ -56,12 +63,10 @@ body {
 @keyframes lulogflicker {
   from {
     filter: invert(1) sepia(1) saturate(10000%) hue-rotate(160deg) brightness(1)
-      drop-shadow(1px 0 0 #ea36af)
-      drop-shadow(-2px 0 0 #75fa69);
+      drop-shadow(1px 0 0 #ea36af) drop-shadow(-2px 0 0 #75fa69);
   }
   to {
     filter: invert(1) sepia(1) saturate(10000%) hue-rotate(160deg) brightness(1)
-      drop-shadow(2px 0.5px 2px #ea36af)
-      drop-shadow(-1px -0.5px 2px #75fa69);
+      drop-shadow(2px 0.5px 2px #ea36af) drop-shadow(-1px -0.5px 2px #75fa69);
   }
 }
