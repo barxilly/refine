@@ -1,0 +1,67 @@
+body {
+  background-color: rgb(34, 34, 88) !important;
+  color: rgb(151, 231, 255) !important;
+  text-shadow: 0.06rem 0 0.06rem #ea36af, -0.125rem 0 0.06rem #75fa69;
+  letter-spacing: 0.125em;
+  animation-duration: 0.01s;
+  animation-name: textflicker;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+
+@keyframes textflicker {
+  from {
+    text-shadow: 1px 0 0 #ea36af, -2px 0 0 #75fa69;
+  }
+  to {
+    text-shadow: 2px 0.5px 2px #ea36af, -1px -0.5px 2px #75fa69;
+  }
+}
+
+@keyframes boxflicker {
+  from {
+    box-shadow: 1px 0 0 #ea36af00, -2px 0 0 #75fa69;
+  }
+  to {
+    box-shadow: 2px 0.5px 2px #ea36af00, -1px -0.5px 2px #75fa69;
+  }
+}
+
+
+.topbar {
+  border: rgb(151, 231, 255) 2px solid;
+  border-right: none;
+   animation-duration: 0.01s;
+  animation-name: boxflicker;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  margin: 1em;
+  padding-left: 0.3em;
+  padding-right: 3em;
+  font-weight: bold;
+  font-size: 1.6em;
+}
+
+.lulog {
+  filter: invert(1) sepia(1) saturate(10000%) hue-rotate(160deg) brightness(1)
+    drop-shadow(1px 0 0 #ea36af)
+    drop-shadow(-2px 0 0 #75fa69) !important;
+  animation-duration: 0.01s;
+  animation-name: lulogflicker;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes lulogflicker {
+  from {
+    filter: invert(1) sepia(1) saturate(10000%) hue-rotate(160deg) brightness(1)
+      drop-shadow(1px 0 0 #ea36af)
+      drop-shadow(-2px 0 0 #75fa69);
+  }
+  to {
+    filter: invert(1) sepia(1) saturate(10000%) hue-rotate(160deg) brightness(1)
+      drop-shadow(2px 0.5px 2px #ea36af)
+      drop-shadow(-1px -0.5px 2px #75fa69);
+  }
+}
