@@ -7,6 +7,44 @@ body {
   animation-name: textflicker;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+  position: relative;
+  min-height: 100vh;
+  user-select: none !important;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 3px,
+    transparent 3px,
+    transparent 10px
+  );
+  animation: scanlines-move 9s linear infinite;
+  background-size: 100% 10px;
+  background-repeat: repeat;
+  user-select: none;
+}
+@keyframes scanlines-move {
+  0% {
+    background-position-y: 0;
+  }
+  100% {
+    background-position-y: -40px;
+  }
 }
 
 @keyframes textflicker {
@@ -41,11 +79,84 @@ body {
   font-size: 1.6em;
 }
 
+.botbo {
+  border-bottom:  rgb(151, 231, 255) 0.3em solid !important;
+  width: 100vw;
+  height: 12vh;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding-left: 3em;
+  padding-right: 3em;
+}
+
+.numblock{
+  margin:2em !important;
+  font-size: 1.4em;
+}
+
+.number{
+  transition: all 0.5s;
+  user-select: none;
+  /* animation properties will be set inline for each number */
+}
+
+.number:hover{
+  transform: scale(1.35) !important;
+  transition: all 0.5s;
+  animation: none !important;
+}
+
+@keyframes wobble {
+  0% {
+    transform: translateX(0) translateY(0) rotate(-2deg) scale(1);
+  }
+  10% {
+    transform: translateX(8px) translateY(4px) rotate(2deg) scale(1.05);
+  }
+  20% {
+    transform: translateX(-6px) translateY(-5px) rotate(-3deg) scale(0.98);
+  }
+  30% {
+    transform: translateX(12px) translateY(7px) rotate(3deg) scale(1.07);
+  }
+  40% {
+    transform: translateX(-10px) translateY(-8px) rotate(-2deg) scale(0.96);
+  }
+  50% {
+    transform: translateX(16px) translateY(10px) rotate(2deg) scale(1.1);
+  }
+  60% {
+    transform: translateX(-14px) translateY(-7px) rotate(-3deg) scale(0.97);
+  }
+  70% {
+    transform: translateX(10px) translateY(5px) rotate(2deg) scale(1.05);
+  }
+  80% {
+    transform: translateX(-8px) translateY(-4px) rotate(-2deg) scale(0.99);
+  }
+  90% {
+    transform: translateX(5px) translateY(2px) rotate(1deg) scale(1.02);
+  }
+  100% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+.box {
+  border: rgb(151, 231, 255) 2px solid;
+  animation-duration: 0.01s;
+  animation-name: boxflicker;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  padding-left: 0.3em;
+  background:none !important;
+}
+
 .line {
   width: 100vw !important;
   color: rgb(151, 231, 255) !important;
   border-top: rgb(151, 231, 255) 0.3em solid !important;
-    animation-duration: 0.01s;
+  animation-duration: 0.01s;
   animation-name: boxflicker;
   animation-iteration-count: infinite;
   animation-direction: alternate;
@@ -68,5 +179,14 @@ body {
   to {
     filter: invert(1) sepia(1) saturate(10000%) hue-rotate(160deg) brightness(1)
       drop-shadow(2px 0.5px 2px #ea36af) drop-shadow(-1px -0.5px 2px #75fa69);
+  }
+}
+
+@keyframes dropflicker {
+  from {
+    filter: drop-shadow(1px 0 0 #ea36af) drop-shadow(-2px 0 0 #75fa69);
+  }
+  to {
+    filter: drop-shadow(2px 0.5px 2px #ea36af) drop-shadow(-1px -0.5px 2px #75fa69);
   }
 }
