@@ -149,8 +149,21 @@ body::after {
   animation-iteration-count: infinite;
   animation-direction: alternate;
   padding-left: 0.3em;
-  background:none !important;
+  color: rgb(151, 231, 255);
 }
+
+.box[style*="background"] {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: rgb(34, 34, 88);
+  -webkit-text-fill-color: rgb(34, 34, 88);
+}
+
+.box:not([style*="background"]) {
+  color: rgb(151, 231, 255);
+  background-color: transparent;
+}
+
 
 .line {
   width: 100vw !important;
