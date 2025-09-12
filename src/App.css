@@ -101,7 +101,7 @@ body::after {
 }
 
 .number:hover{
-  transform: scale(1.35) !important;
+  transform: scale(1.45) !important;
   transition: all 0.5s;
   animation: none !important;
 }

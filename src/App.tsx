@@ -1,102 +1,119 @@
-import { Center, Flex, Image, MantineProvider, Stack } from "@mantine/core"
-import "./App.css"
-import "@mantine/core/styles.css"
-import { useState, useEffect } from "react"
-import { useRef } from "react"
+import { Center, Flex, Image, MantineProvider, Stack } from "@mantine/core";
+import "./App.css";
+import "@mantine/core/styles.css";
+import { useState, useEffect } from "react";
+import { useRef } from "react";
 
 function App() {
-  const numBoxRef = useRef<HTMLDivElement>(null)
+  const numBoxRef = useRef<HTMLDivElement>(null);
   function makeArray() {
-    let arr = [] as number[]
+    let arr = [] as number[];
     for (let i = 10000; i > 0; i--) {
-      arr.push(Math.floor(Math.random() * 10))
+      arr.push(Math.floor(Math.random() * 10));
     }
-    return arr
+    return arr;
   }
 
-  const [array, setArray] = useState<number[]>([])
+  const [array, setArray] = useState<number[]>([]);
   useEffect(() => {
-    setArray(makeArray())
-  }, [])
+    setArray(makeArray());
+  }, []);
 
-  const [selected, setSelected] = useState<[number, number][]>([])
-  const [replaced, setReplaced] = useState<{ [key: string]: boolean }>({})
+  const [selected, setSelected] = useState<[number, number][]>([]);
+  const [replaced, setReplaced] = useState<{ [key: string]: boolean }>({});
+  const [quart, setQuart] = useState<String>("");
 
-  const [percs, setPercs] = useState<number[]>([0, 0, 0, 0, 0])
+  useEffect(() => {
+    if (quart != "") return;
+    const aarr = ["Djungelskog", "Weesp", "Turbo", "Anders", "Carpi", "Annecy"];
+    setQuart(aarr[Math.floor(Math.random() * aarr.length)]);
+  }, []);
+
+  const [percs, setPercs] = useState<number[]>([0, 0, 0, 0, 0]);
 
   useEffect(() => {
     if (array.length && numBoxRef.current) {
-      const el = numBoxRef.current
-      el.scrollLeft = el.scrollWidth / 2 - el.clientWidth / 2
-      el.scrollTop = el.scrollHeight / 2 - el.clientHeight / 2
+      const el = numBoxRef.current;
+      el.scrollLeft = el.scrollWidth / 2 - el.clientWidth / 2;
+      el.scrollTop = el.scrollHeight / 2 - el.clientHeight / 2;
     }
-  }, [array])
+  }, [array]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === " " || e.code === "Space") {
-        e.preventDefault()
+        e.preventDefault();
+        // Precompute box assignments for each selected number
+        const boxAssignments = selected.map(() =>
+          Math.floor(Math.random() * 5)
+        );
         setReplaced((prev) => {
-          const next = { ...prev }
-          selected.forEach(([x, y]) => {
+          const next = { ...prev };
+          selected.forEach(([x, y], idx) => {
             const elem = document.querySelector(
               `[data-row='${x}'][data-col='${y}']`
-            ) as HTMLElement
-            const elemPos = elem.getBoundingClientRect()
+            ) as HTMLElement;
             if (elem) {
-              const box = Math.floor(Math.random() * 5)
-              const boxId = `b${box + 1}`
-              const boxElem = document.getElementById(boxId)
-              setPercs((prev) => {
-                const next = [...prev]
-                next[box] += Math.floor(Math.random() * 5)
-                return next
-              })
+              const box = boxAssignments[idx];
+              const boxId = `b${box + 1}`;
+              const boxElem = document.getElementById(boxId);
+              if (Math.floor(Math.random() * 5) == 1) {
+                return;
+              } else {
+                setPercs((prev) => {
+                  const next = [...prev];
+                  next[box] += Math.floor(Math.random() * 3);
+                  return next;
+                });
+              }
               if (boxElem) {
-                const boxRect = boxElem.getBoundingClientRect()
-                const startX = elemPos.left + elemPos.width / 2
-                const startY = elemPos.top + elemPos.height / 2
-                const endX = boxRect.left + boxRect.width / 2
-                const endY = boxRect.top + boxRect.height / 2
+                // Read all positions before writing styles
+                const elemPos = elem.getBoundingClientRect();
+                const boxRect = boxElem.getBoundingClientRect();
+                const startX = elemPos.left + elemPos.width / 2;
+                const startY = elemPos.top + elemPos.height / 2;
+                const endX = boxRect.left + boxRect.width / 2;
+                const endY = boxRect.top + boxRect.height / 2;
 
-                const clone = elem.cloneNode(true) as HTMLElement
-                clone.style.position = "fixed"
-                clone.style.left = `${startX}px`
-                clone.style.top = `${startY}px`
-                clone.style.pointerEvents = "none"
-                clone.style.zIndex = "9999"
-                clone.style.fontSize = "1.4em"
+                const clone = elem.cloneNode(true) as HTMLElement;
+                clone.style.position = "fixed";
+                clone.style.left = `${startX}px`;
+                clone.style.top = `${startY}px`;
+                clone.style.pointerEvents = "none";
+                clone.style.zIndex = "9999";
+                clone.style.fontSize = "1.4em";
                 clone.style.transition =
-                  "transform 0.7s cubic-bezier(.7,.2,.3,1), opacity 1s"
-                clone.style.transform = "translate(0, 0)"
-                document.body.appendChild(clone)
+                  "transform 0.7s cubic-bezier(.7,.2,.3,1), opacity 1s";
+                clone.style.transform = "translate(0, 0)";
+                clone.style.willChange = "transform, opacity";
+                document.body.appendChild(clone);
 
                 requestAnimationFrame(() => {
                   clone.style.transform = `translate(${endX - startX}px, ${
                     endY - startY
-                  }px) scale(1.5)`
-                  clone.style.opacity = "0"
-                })
+                  }px) scale(1.5)`;
+                  clone.style.opacity = "0";
+                });
 
                 setTimeout(() => {
-                  clone.remove()
-                }, 800)
+                  clone.remove();
+                }, 800);
               }
             }
-          })
+          });
           selected.forEach(([row, col]) => {
-            next[`${row},${col}`] = true
-          })
-          return next
-        })
-        setSelected([])
+            next[`${row},${col}`] = true;
+          });
+          return next;
+        });
+        setSelected([]);
       }
-    }
-    window.addEventListener("keydown", handleKeyDown)
+    };
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [selected])
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selected]);
 
   const [hex] = useState(
     () =>
@@ -104,15 +121,15 @@ function App() {
       Math.floor(Math.random() * 0xffffffff)
         .toString(16)
         .padStart(8, "0")
-  )
+  );
 
-  const keyframesArr = useRef<string[][]>([])
-  const animParamsArr = useRef<{ duration: string; delay: string }[][]>([])
+  const keyframesArr = useRef<string[][]>([]);
+  const animParamsArr = useRef<{ duration: string; delay: string }[][]>([]);
   if (keyframesArr.current.length === 0 && array.length >= 1600) {
     keyframesArr.current = Array.from({ length: 40 }).map((_, i) =>
       array.slice(i * 40, (i + 1) * 40).map((_, j) => {
-        const xSign = Math.random() > 0.5 ? 1 : -1
-        const ySign = Math.random() > 0.5 ? 1 : -1
+        const xSign = Math.random() > 0.5 ? 1 : -1;
+        const ySign = Math.random() > 0.5 ? 1 : -1;
         return `@keyframes wobble_${i}_${j} {
           0% { transform: translateX(0) translateY(0) rotate(-2deg) scale(1); }
           10% { transform: translateX(${8 * xSign}px) translateY(${
@@ -143,26 +160,30 @@ function App() {
           2 * ySign
         }px) rotate(1deg) scale(1.02); }
           100% { transform: translateX(0) translateY(0) rotate(0deg) scale(1); }
-        }`
+        }`;
       })
-    )
+    );
     animParamsArr.current = Array.from({ length: 40 }).map((_, i) =>
       array.slice(i * 40, (i + 1) * 40).map((_, j) => {
+        console.log(j);
         return {
-          duration: (6 + Math.random() * 4).toFixed(2) + "s",
+          duration: (10 + Math.random() * 4).toFixed(2) + "s",
           delay: (Math.random() * 10).toFixed(2) + "s",
-        }
+        };
       })
-    )
+    );
   }
 
   return (
     <MantineProvider forceColorScheme="dark">
       <Stack w="95vw" h="100vh">
         <Flex className="topbar" justify="space-between">
-          <div>Djungelskog</div>
+          <div>{quart}</div>
           <div style={{ position: "relative" }}>
-            0% Complete
+            {Math.floor(
+              (percs[0] + percs[1] + percs[2] + percs[3] + percs[4]) / 5
+            )}
+            % Complete
             <Image
               className="lulog"
               src="https://lumonmerchandising.com/cdn/shop/files/lumon_logo-black-png_4a7c637e-96dd-45e7-a02e-eba67561a7e7.png?v=1743065319"
@@ -193,7 +214,7 @@ function App() {
           }}
         >
           {Array.from({ length: 40 }).map((_, i) => {
-            const keyframes = keyframesArr.current[i]?.join("\n") ?? ""
+            const keyframes = keyframesArr.current[i]?.join("\n") ?? "";
             return (
               <div
                 className="numblock"
@@ -209,11 +230,11 @@ function App() {
                   const animParams = animParamsArr.current[i]?.[j] ?? {
                     duration: "8s",
                     delay: "0s",
-                  }
+                  };
                   const isSelected = selected.some(
                     ([row, col]) => row === i && col === j
-                  )
-                  const isReplaced = replaced[`${i},${j}`]
+                  );
+                  const isReplaced = replaced[`${i},${j}`];
                   return (
                     <span
                       key={j}
@@ -222,22 +243,42 @@ function App() {
                       data-col={j}
                       style={{
                         padding: "0 1em",
-                        animation: `wobble_${i}_${j} ${animParams.duration} infinite`,
+                        animation: isSelected
+                          ? ""
+                          : `wobble_${i}_${j} ${animParams.duration} infinite`,
                         animationDelay: animParams.delay,
-                        transform: isSelected ? "scale(1.35)" : undefined,
+                        transform: isSelected ? "scale(1.45)" : undefined,
+                        fontWeight: isSelected ? "700" : undefined,
                       }}
                       onClick={() => {
-                        if (!isSelected && !isReplaced) {
-                          setSelected((prev) => [...prev, [i, j]])
-                        }
+                        if (isReplaced) return;
+                        if (isSelected) return;
+                        setSelected((prev) => {
+                          if (prev.length === 0) {
+                            return [[i, j]];
+                          }
+                          // Check adjacency to any selected number
+                          const isAdjacent = prev.some(([row, col]) => {
+                            return (
+                              (row === i && Math.abs(col - j) === 1) ||
+                              (col === j && Math.abs(row - i) === 1)
+                            );
+                          });
+                          if (isAdjacent) {
+                            return [...prev, [i, j]];
+                          } else {
+                            // Not adjacent: reset selection to only this number
+                            return [[i, j]];
+                          }
+                        });
                       }}
                     >
                       {isReplaced ? "\u00A0" : String(num).padStart(2, " ")}
                     </span>
-                  )
+                  );
                 })}
               </div>
-            )
+            );
           })}
         </div>
         <div style={{ position: "relative" }}>
@@ -333,8 +374,18 @@ function App() {
           {hex}
         </Center>
       </Stack>
+      <div
+        className="box"
+        style={{
+          width: "100vw",
+          height: "40vh",
+          position: "absolute",
+          top: "50%",
+          background: "rgba(34, 34, 88,0.85)",
+        }}
+      ></div>
     </MantineProvider>
-  )
+  );
 }
 
-export default App
+export default App;
