@@ -64,7 +64,6 @@ function App() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === " " || e.code === "Space") {
         e.preventDefault();
-        // Precompute box assignments for each selected number
         const boxAssignments = selected.map(() =>
           Math.floor(Math.random() * 5)
         );
@@ -88,7 +87,6 @@ function App() {
                 });
               }
               if (boxElem) {
-                // Read all positions before writing styles
                 const elemPos = elem.getBoundingClientRect();
                 const boxRect = boxElem.getBoundingClientRect();
                 const startX = elemPos.left + elemPos.width / 2;
@@ -317,7 +315,6 @@ function App() {
                               if (prev.length === 0) {
                                 return [[i, j]];
                               }
-                              // Check adjacency to any selected number
                               const isAdjacent = prev.some(([row, col]) => {
                                 return (
                                   (row === i && Math.abs(col - j) === 1) ||
@@ -327,7 +324,6 @@ function App() {
                               if (isAdjacent) {
                                 return [...prev, [i, j]];
                               } else {
-                                // Not adjacent: reset selection to only this number
                                 return [[i, j]];
                               }
                             });

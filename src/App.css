@@ -104,7 +104,6 @@ body::after {
 .number {
   transition: all 0.5s;
   user-select: none;
-  /* animation properties will be set inline for each number */
 }
 
 .number:hover {

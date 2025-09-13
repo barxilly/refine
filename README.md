@@ -1,5 +1,5 @@
 # Refine
-An MDR simulator from the Apple TV show "Severance".
+An MDR simulator from the Apple TV show "Severance". It doesn't do much, and is mostly for the s&g's.
 
 ## Tech Used
 - React
