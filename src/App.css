@@ -9,6 +9,8 @@ body {
   animation-direction: alternate;
   position: relative;
   min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
   user-select: none !important;
 }
 
@@ -47,6 +49,11 @@ body::after {
   }
 }
 
+.quart{
+  padding-right: 2em;
+  background: linear-gradient(90deg,rgba(34, 34, 88,1),rgba(34, 34, 88,0.8),rgba(34, 34, 88,0.0));
+}
+
 @keyframes textflicker {
   from {
     text-shadow: 1px 0 0 #ea36af, -2px 0 0 #75fa69;
@@ -80,7 +87,7 @@ body::after {
 }
 
 .botbo {
-  border-bottom:  rgb(151, 231, 255) 0.3em solid !important;
+  border-bottom: rgb(151, 231, 255) 0.3em solid !important;
   width: 100vw;
   height: 12vh;
   font-weight: bold;
@@ -89,18 +96,18 @@ body::after {
   padding-right: 3em;
 }
 
-.numblock{
-  margin:2em !important;
+.numblock {
+  margin: 2em !important;
   font-size: 1.4em;
 }
 
-.number{
+.number {
   transition: all 0.5s;
   user-select: none;
   /* animation properties will be set inline for each number */
 }
 
-.number:hover{
+.number:hover {
   transform: scale(1.45) !important;
   transition: all 0.5s;
   animation: none !important;
@@ -164,7 +171,6 @@ body::after {
   background-color: transparent;
 }
 
-
 .line {
   width: 100vw !important;
   color: rgb(151, 231, 255) !important;
@@ -200,6 +206,12 @@ body::after {
     filter: drop-shadow(1px 0 0 #ea36af) drop-shadow(-2px 0 0 #75fa69);
   }
   to {
-    filter: drop-shadow(2px 0.5px 2px #ea36af) drop-shadow(-1px -0.5px 2px #75fa69);
+    filter: drop-shadow(2px 0.5px 2px #ea36af)
+      drop-shadow(-1px -0.5px 2px #75fa69);
   }
+}
+
+.title {
+  color: rgb(151, 231, 255) !important;
+  -webkit-text-fill-color: rgb(151, 231, 255) !important;
 }
