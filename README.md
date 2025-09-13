@@ -6,7 +6,7 @@ An MDR simulator from the Apple TV show "Severance".
 - Vite
 - Confidential Lumon SDK
 
-## How to Run
+## How to Run Locally
 1. Clone the repo
 2. Run `yarn`
 3. Run `yarn dev`
